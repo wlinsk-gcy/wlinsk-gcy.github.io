@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Deepseek on Ananke</title>
+    <link>http://localhost:1313/en/tags/deepseek/</link>
+    <description>Recent content in Deepseek on Ananke</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <lastBuildDate>Fri, 04 Apr 2025 23:04:29 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/en/tags/deepseek/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>基于Ollama在linux上部署DeepseekR1模型</title>
+      <link>http://localhost:1313/en/post/%E5%9F%BA%E4%BA%8Eollama%E5%9C%A8linux%E4%B8%8A%E9%83%A8%E7%BD%B2deepseekr1%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Fri, 04 Apr 2025 23:04:29 +0000</pubDate>
+      <guid>http://localhost:1313/en/post/%E5%9F%BA%E4%BA%8Eollama%E5%9C%A8linux%E4%B8%8A%E9%83%A8%E7%BD%B2deepseekr1%E6%A8%A1%E5%9E%8B/</guid>
+      <description>&lt;h1 id=&#34;一部署ollama&#34;&gt;一、部署Ollama&lt;/h1&gt;&#xA;&lt;p&gt;ollama官网：&lt;a href=&#34;https://ollama.com/download/linux&#34;&gt;https://ollama.com/&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;ollama中文文档：https://github.com/onllama/ollama-chinese-document&lt;/p&gt;&#xA;&lt;p&gt;自动安装：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;curl -fsSL https://ollama.com/install.sh | sh&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;由于虚拟机网络的问题，本次案例使用手动安装的方式进行：&lt;/p&gt;&#xA;&lt;p&gt;手动安装的官方文档：https://github.com/ollama/ollama/blob/main/docs/linux.md&lt;/p&gt;&#xA;&lt;h2 id=&#34;1手动下载tgz包&#34;&gt;1、手动下载tgz包&lt;/h2&gt;&#xA;&lt;p&gt;下载链接：https://ollama.com/download/ollama-linux-amd64.tgz&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 如果虚拟机网络可以连接，也可以直接执行&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;curl -L https://ollama.com/download/ollama-linux-amd64.tgz -o ollama-linux-amd64.tgz&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; &#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 解压tgz包&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo tar -C /usr -xzf ollama-linux-amd64.tgz&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;2测试ollama是否安装成功&#34;&gt;2、测试ollama是否安装成功&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ollama -v&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;figure&gt;&lt;img src=&#34;http://localhost:1313/images/blog1-1.2.1.png&#34;&gt;&lt;figcaption&gt;&#xA;      &lt;h4&gt;出现版本号即安装成功&lt;/h4&gt;&#xA;    &lt;/figcaption&gt;&#xA;&lt;/figure&gt;</description>
+    </item>
+  </channel>
+</rss>

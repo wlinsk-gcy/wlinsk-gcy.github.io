@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>基于Ollama在linux上部署DeepseekR1模型 | Wlinsk Blog</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="DeepseekR1本地化部署">
+    <meta name="generator" content="Hugo 0.147.0">
+    
+    
+    
+      <meta name="robots" content="index, follow">
+    
+    <meta name="author" content="阿业">
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.d05fb5f317fcf33b3a52936399bdf6f47dc776516e1692e412ec7d76f4a5faa2.css" >
+
+
+
+
+    
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="https://wlinsk-gcy.github.io/post/blog1-%E5%9F%BA%E4%BA%8Eollama%E5%9C%A8linux%E4%B8%8A%E9%83%A8%E7%BD%B2deepseekr1%E6%A8%A1%E5%9E%8B/">
+    
+
+    <meta property="og:url" content="https://wlinsk-gcy.github.io/post/blog1-%E5%9F%BA%E4%BA%8Eollama%E5%9C%A8linux%E4%B8%8A%E9%83%A8%E7%BD%B2deepseekr1%E6%A8%A1%E5%9E%8B/">
+  <meta property="og:site_name" content="Wlinsk Blog">
+  <meta property="og:title" content="基于Ollama在linux上部署DeepseekR1模型">
+  <meta property="og:description" content="DeepseekR1本地化部署">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2025-04-04T23:04:29+00:00">
+    <meta property="article:modified_time" content="2025-04-04T23:04:29+00:00">
+    <meta property="article:tag" content="Ollama">
+    <meta property="article:tag" content="Deepseek">
+
+  <meta itemprop="name" content="基于Ollama在linux上部署DeepseekR1模型">
+  <meta itemprop="description" content="DeepseekR1本地化部署">
+  <meta itemprop="datePublished" content="2025-04-04T23:04:29+00:00">
+  <meta itemprop="dateModified" content="2025-04-04T23:04:29+00:00">
+  <meta itemprop="wordCount" content="414">
+  <meta itemprop="keywords" content="Ollama,Deepseek">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="基于Ollama在linux上部署DeepseekR1模型">
+  <meta name="twitter:description" content="DeepseekR1本地化部署">
+
+      
+    
+	
+  </head><body class="ma0 avenir bg-near-white production">
+
+    
+   
+  
+
+
+  
+  
+  
+  <header class="cover bg-center" style="background-image: url('/images/IMG_6062.jpeg');">
+    <div class="bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        Wlinsk Blog
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/about/" title="About 页">
+              About
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/post/" title="Articles 页">
+              Articles
+            </a>
+          </li>
+          
+        </ul>
+      
+      <div class="ananke-socials"><a href="https://github.com/wlinsk-gcy/" target="_blank" rel="noopener"
+        class="ananke-social-link link-transition github link dib z-999 pt3 pt0-l mr1"
+        title="follow on GitHub - Opens in a new window"
+        aria-label="follow on GitHub - Opens in a new window">
+      <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+            
+          </span></a></div>
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Articles
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">基于Ollama在linux上部署DeepseekR1模型</h1>
+      
+      
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2025-04-04T23:04:29Z">
+        发布于：2025-04-04 23:04:29</time>
+      
+
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><h2 id="一部署ollama">一、部署Ollama</h2>
+<p>ollama官网：<a href="https://ollama.com/download/linux">https://ollama.com/</a></p>
+<p>ollama中文文档：<a href="https://github.com/onllama/ollama-chinese-document">https://github.com/onllama/ollama-chinese-document</a></p>
+<p>自动安装：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>curl -fsSL https://ollama.com/install.sh | sh
+</span></span></code></pre></div><p>由于虚拟机网络的问题，本次案例使用手动安装的方式进行：</p>
+<p>手动安装的官方文档：<a href="https://github.com/ollama/ollama/blob/main/docs/linux.md">https://github.com/ollama/ollama/blob/main/docs/linux.md</a></p>
+<h3 id="1手动下载tgz包">1、手动下载tgz包</h3>
+<p>下载链接：<a href="https://ollama.com/download/ollama-linux-amd64.tgz">https://ollama.com/download/ollama-linux-amd64.tgz</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 如果虚拟机网络可以连接，也可以直接执行</span>
+</span></span><span style="display:flex;"><span>curl -L https://ollama.com/download/ollama-linux-amd64.tgz -o ollama-linux-amd64.tgz
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 解压tgz包</span>
+</span></span><span style="display:flex;"><span>sudo tar -C /usr -xzf ollama-linux-amd64.tgz
+</span></span></code></pre></div><h3 id="2测试ollama是否安装成功">2、测试ollama是否安装成功</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ollama -v
+</span></span></code></pre></div><p>出现版本号即安装成功。</p>
+<figure><img src="/images/blog1/blog1-1.2.1.png">
+</figure>
+
+<h3 id="3配置开机自启服务">3、配置开机自启服务</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 配置ollama服务文件</span>
+</span></span><span style="display:flex;"><span>vi /etc/systemd/system/ollama.service
+</span></span></code></pre></div><p>服务文件的内容如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>Description<span style="color:#f92672">=</span>Ollama Service
+</span></span><span style="display:flex;"><span>After<span style="color:#f92672">=</span>network-online.target
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Service<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>ExecStart<span style="color:#f92672">=</span>/usr/bin/ollama serve
+</span></span><span style="display:flex;"><span>User<span style="color:#f92672">=</span>root
+</span></span><span style="display:flex;"><span>Group<span style="color:#f92672">=</span>root
+</span></span><span style="display:flex;"><span>Restart<span style="color:#f92672">=</span>always
+</span></span><span style="display:flex;"><span>RestartSec<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>WantedBy<span style="color:#f92672">=</span>default.target
+</span></span></code></pre></div><p>本案例就不单独创建ollama用户了，直接root用户走完；</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 刷新配置，让配置生效</span>
+</span></span><span style="display:flex;"><span>sudo systemctl daemon-reload
+</span></span><span style="display:flex;"><span>sudo systemctl enable ollama
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 启动服务</span>
+</span></span><span style="display:flex;"><span>sudo systemctl start ollama
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看服务状态</span>
+</span></span><span style="display:flex;"><span>sudo systemctl status ollama
+</span></span></code></pre></div><figure><img src="/images/blog1/blog1-1.3.1.png">
+</figure>
+
+<h2 id="二部署deepseek-r115b">二、部署deepseek-r1:1.5b</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ollama run deepseek-r1:1.5b
+</span></span></code></pre></div><p>等待下载：</p>
+<figure><img src="/images/blog1/blog1-1.4.1.png">
+</figure>
+
+<p>下载成功后即可对话：</p>
+<figure><img src="/images/blog1/blog1-1.4.2.png">
+</figure>
+
+<h2 id="异常解决centos7因版本过低而安装失败的问题">异常：解决CentOS7因版本过低而安装失败的问题</h2>
+<blockquote>
+<p>（如安装没问题则跳过该节）</p></blockquote>
+<p>出现第一个报错：</p>
+<figure><img src="/images/blog1/blog1-1.5.1.png">
+</figure>
+
+<p>因为CentOS7已经2024年6月已经停止维护，所以版本较低，需要自行升级依赖；</p>
+<p>执行该命令查看本机CLIBC版本：strings /lib64/libc.so.6 |grep GLIBC_</p>
+<p>可以看到都是2.2.x；2.17，但报错信息显示要2.27；</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 手动安装glibc-2.28：</span>
+</span></span><span style="display:flex;"><span>wget http://ftp.gnu.org/gnu/glibc/glibc-2.28.tar.gz
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 解压</span>
+</span></span><span style="display:flex;"><span>tar xf glibc-2.28.tar.gz
+</span></span><span style="display:flex;"><span>cd glibc-2.28/ <span style="color:#f92672">&amp;&amp;</span> mkdir build  <span style="color:#f92672">&amp;&amp;</span> cd build
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 修改配置</span>
+</span></span><span style="display:flex;"><span>../configure --prefix<span style="color:#f92672">=</span>/usr --disable-profile --enable-add-ons --with-headers<span style="color:#f92672">=</span>/usr/include --with-binutils<span style="color:#f92672">=</span>/usr/bin
+</span></span></code></pre></div><p>此时报错：configure: error: no acceptable C compiler found in $PATH</p>
+<figure><img src="/images/blog1/1.5.2.png">
+</figure>
+
+<p>这是因为本机没有gcc依赖，所以进行安装：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 安装gcc</span>
+</span></span><span style="display:flex;"><span>yum -y install gcc
+</span></span></code></pre></div><p>再次进行配置（执行）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>../configure --prefix<span style="color:#f92672">=</span>/usr --disable-profile --enable-add-ons --with-headers<span style="color:#f92672">=</span>/usr/include --with-binutils<span style="color:#f92672">=</span>/usr/bin
+</span></span></code></pre></div><p>仍然报错：These critical programs are missing or too old: make bison compiler</p>
+<p>继续升级make版本：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 升级GCC(默认为4 升级为8)：</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>yum install -y centos-release-scl
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>yum install -y devtoolset-8-gcc*
+</span></span></code></pre></div><p>报错：Could not retrieve mirrorlist <a href="http://mirrorlist.centos.org?arch=x86_64&amp;release=7&amp;repo=sclo-rh">http://mirrorlist.centos.org?arch=x86_64&release=7&repo=sclo-rh</a> error was 14: curl#6 - &ldquo;Could not resolve host: mirrorlist.centos.org; 未知的错误&rdquo;；</p>
+<p>以上报错修改镜像源即可：</p>
+<p>1、修改CentOS-SCLo-scl.repo</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>vi /etc/yum.repos.d/CentOS-SCLo-scl.repo
+</span></span></code></pre></div><p>2、修改文件里centos-sclo-sclo部分的为</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#f92672">[</span>centos-sclo-sclo<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>name<span style="color:#f92672">=</span>CentOS-7 - SCLo sclo
+</span></span><span style="display:flex;"><span>baseurl<span style="color:#f92672">=</span>https://mirrors.aliyun.com/centos/7/sclo/x86_64/sclo/
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># mirrorlist=http://mirrorlist.centos.org?arch=$basearch&amp;release=7&amp;repo=sclo-sclo</span>
+</span></span><span style="display:flex;"><span>gpgcheck<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>enabled<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>gpgkey<span style="color:#f92672">=</span>file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo
+</span></span></code></pre></div><p>3、修改CentOS-SCLo-scl-rh.repo</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>vi /etc/yum.repos.d/CentOS-SCLo-scl-rh.repo
+</span></span></code></pre></div><p>4、修改文件里centos-sclo-rh的内容为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#f92672">[</span>centos-sclo-rh<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>name<span style="color:#f92672">=</span>CentOS-7 - SCLo rh
+</span></span><span style="display:flex;"><span>baseurl<span style="color:#f92672">=</span>https://mirrors.aliyun.com/centos/7/sclo/x86_64/rh/
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># mirrorlist=http://mirrorlist.centos.org?arch=$basearch&amp;release=7&amp;repo=sclo-rh</span>
+</span></span><span style="display:flex;"><span>gpgcheck<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>enabled<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>gpgkey<span style="color:#f92672">=</span>file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-SCLo
+</span></span></code></pre></div><p>5、刷新缓存</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>yum repolist
+</span></span><span style="display:flex;"><span>yum clean all
+</span></span><span style="display:flex;"><span>yum makecache
+</span></span></code></pre></div><p>修改镜像源结束</p>
+<hr>
+<p>到此gcc8已经安装完成：</p>
+<p>为gcc重命名，标记版本号；</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># devtoolset-8-gcc* 安装完后：</span>
+</span></span><span style="display:flex;"><span>mv /usr/bin/gcc /usr/bin/gcc-4.8.5
+</span></span><span style="display:flex;"><span>ln -s /opt/rh/devtoolset-8/root/bin/gcc /usr/bin/gcc
+</span></span></code></pre></div><p>升级 make(默认为3 升级为4)：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>wget http://ftp.gnu.org/gnu/make/make-4.3.tar.gz
+</span></span><span style="display:flex;"><span>tar -xzvf make-4.3.tar.gz <span style="color:#f92672">&amp;&amp;</span> cd make-4.3/
+</span></span><span style="display:flex;"><span>./configure  --prefix<span style="color:#f92672">=</span>/usr/local/make
+</span></span><span style="display:flex;"><span>make <span style="color:#f92672">&amp;&amp;</span> make install
+</span></span><span style="display:flex;"><span>cd /usr/bin/ <span style="color:#f92672">&amp;&amp;</span> mv make make.bak
+</span></span><span style="display:flex;"><span>ln -sv /usr/local/make/bin/make /usr/bin/make
+</span></span></code></pre></div><p>升级完成后，重新配置glibc2.28：</p>
+<pre tabindex="0"><code>cd /root/glibc-2.28/build
+../configure --prefix=/usr --disable-profile --enable-add-ons --with-headers=/usr/include --with-binutils=/usr/bin
+</code></pre><p>然后还是报错&hellip;</p>
+<p>configure: error：</p>
+<p>*** These critical programs are missing or too old: bison</p>
+<p>*** Check the INSTALL file for required versions.</p>
+<p>直接安装bison：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>yum install -y bison
+</span></span></code></pre></div><p>然后再重新执行配置glibc-2.28的命令即可；</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cd /root/glibc-2.28/build
+</span></span><span style="display:flex;"><span>make <span style="color:#f92672">&amp;&amp;</span> make install
+</span></span></code></pre></div><p>install的时间较长，大约需要10~30分钟；</p>
+<p>重新执行：ollama -v</p>
+<figure><img src="/images/blog1/1.5.3.png">
+</figure>
+
+<p>CLIBC_2.27 not found的问题已解决！</p>
+<p>但仍有其他依赖不存在的问题：</p>
+<p>ollama: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.25&rsquo; not found (required by ollama)</p>
+<p>ollama: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.20&rsquo; not found (required by ollama)</p>
+<p>ollama: /lib64/libstdc++.so.6: version `CXXABI_1.3.9&rsquo; not found (required by ollama)</p>
+<p>ollama: /lib64/libstdc++.so.6: version `CXXABI_1.3.11&rsquo; not found (required by ollama)</p>
+<p>ollama: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.21&rsquo; not found (required by ollama)</p>
+<p>ollama: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.22&rsquo; not found (required by ollama)</p>
+<p>查看本机CXXABI版本信息：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>strings /usr/lib64/libstdc++.so.6 | grep CXXABI
+</span></span></code></pre></div><p>更新libstdc++.so.6.0.26</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>wget https://cdn.frostbelt.cn/software/libstdc%2B%2B.so.6.0.26
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 报错：ERROR: cannot verify cdn.frostbelt.cn&#39;s certificate, issued by &#39;/C=US/O=DigiCert Inc/OU=www.digicert.com/CN=Encryption Everywhere DV TLS CA - G2&#39;:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#  Issued certificate has expired.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#To connect to cdn.frostbelt.cn insecurely, use `--no-check-certificate&#39;.</span>
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 所以根据提示添加参数再次请求：</span>
+</span></span><span style="display:flex;"><span>wget --no-check-certificate https://cdn.frostbelt.cn/software/libstdc%2B%2B.so.6.0.26
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 下载成功后替换系统中的/usr/lib64</span>
+</span></span><span style="display:flex;"><span>cp libstdc++.so.6.0.26 /usr/lib64/
+</span></span><span style="display:flex;"><span>cd /usr/lib64/
+</span></span><span style="display:flex;"><span>ln -snf ./libstdc++.so.6.0.26 libstdc++.so.6
+</span></span></code></pre></div><p>再次验证ollama是否安装成功：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>ollama -v
+</span></span></code></pre></div><p>即可解决。</p>
+<ul class="pa0">
+  
+   <li class="list di">
+     <a href="/tags/ollama/" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Ollama</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/deepseek/" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Deepseek</a>
+   </li>
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+    <aside class="w-30-l mt6-l"><div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">这个post中有</p>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一部署ollama">一、部署Ollama</a>
+      <ul>
+        <li><a href="#1手动下载tgz包">1、手动下载tgz包</a></li>
+        <li><a href="#2测试ollama是否安装成功">2、测试ollama是否安装成功</a></li>
+        <li><a href="#3配置开机自启服务">3、配置开机自启服务</a></li>
+      </ul>
+    </li>
+    <li><a href="#二部署deepseek-r115b">二、部署deepseek-r1:1.5b</a></li>
+    <li><a href="#异常解决centos7因版本过低而安装失败的问题">异常：解决CentOS7因版本过低而安装失败的问题</a></li>
+  </ul>
+</nav>
+  </div>
+
+
+
+
+</aside>
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://wlinsk-gcy.github.io/" >
+    &copy;  Wlinsk Blog 2025 
+  </a>
+    <div><div class="ananke-socials"><a href="https://github.com/wlinsk-gcy/" target="_blank" rel="noopener"
+        class="ananke-social-link link-transition github link dib z-999 pt3 pt0-l mr1"
+        title="follow on GitHub - Opens in a new window"
+        aria-label="follow on GitHub - Opens in a new window">
+      <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+            
+          </span></a></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>
